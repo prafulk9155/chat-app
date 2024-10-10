@@ -6,16 +6,16 @@ import { ClerkProvider } from '@clerk/clerk-react'
 import { RedirectToSignIn } from '@clerk/clerk-react';
 
 // Import your publishable key
-const PUBLISHABLE_KEY = 'pk_test_bWVhc3VyZWQtbGVtdXItMTkuY2xlcmsuYWNjb3VudHMuZGV2JA'
+// const PUBLISHABLE_KEY = 'pk_test_bWVhc3VyZWQtbGVtdXItMTkuY2xlcmsuYWNjb3VudHMuZGV2JA'
 
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
-}
+// if (!PUBLISHABLE_KEY) {
+//   throw new Error("Missing Publishable Key")
+// }
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    {/* <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/"> */}
     <App />
-     </ClerkProvider>
+     {/* </ClerkProvider> */}
     
   </StrictMode>,
 )
