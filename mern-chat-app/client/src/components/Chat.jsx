@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import axios from 'axios';
 
 // Initialize the socket connection to your server
-const socket = io('http://localhost:5000'); // Adjust if running on a different server port
+const socket = io('http://192.168.1.126:5000'); // Adjust if running on a different server port
 
 const Chat = () => {
     const [message, setMessage] = useState('');
@@ -13,7 +13,7 @@ const Chat = () => {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/messages');
+                const response = await axios.get('http://192.168.1.126:5000/api/messages');
                 setMessages(response.data.map(msg => msg.content)); // Assuming 'content' is the field name
             } catch (error) {
                 console.error('Error fetching messages:', error);
@@ -39,7 +39,7 @@ const Chat = () => {
         if (message.trim()) {
             try {
                 // Send message to the server via POST request
-                await axios.post('http://localhost:5000/api/messages', { content: message });
+                await axios.post('http://192.168.1.126:5000/api/messages', { content: message });
                 socket.emit('sendMessage', message); // Emit the message using the socket
                 setMessage(''); // Clear the input field
             } catch (error) {

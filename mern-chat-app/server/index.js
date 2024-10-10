@@ -23,6 +23,10 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 // Use the messages routes
 app.use('/api/messages', messagesRouter);
 
+app.get('/',(req,res)=>{
+    res.status(200).json({error:false, message:"Api is working..."})
+})
+
 // WebSocket connection handling
 io.on('connection', (socket) => {
     console.log('New client connected');
