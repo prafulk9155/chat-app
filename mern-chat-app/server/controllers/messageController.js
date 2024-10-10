@@ -2,29 +2,27 @@ const Message = require('../models/Message');
 
 // Controller to get all messages for a specific user
 const getMessages = async (req, res) => {
-    const { userId, recipientId } = req.params; // Get user IDs from the request parameters
+    const { currentUserId, recipientId } = req.params; // Extract user IDs from params
     try {
-        // Fetch messages between two users
         const messages = await Message.find({
             $or: [
-                { userId, recipientId },
-                { userId: recipientId, recipientId: userId }
+                { userId: currentUserId, recipientId },
+                { userId: recipientId, recipientId: currentUserId }
             ]
-        }).sort({ createdAt: -1 }); // Sort messages by creation date, newest first
-        
-        res.json(messages); // Return the messages as a JSON response
+        }).sort({ createdAt: -1 }); // Sort messages
+        res.json(messages);  // Return the messages
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error'); // Handle errors
+        console.error('Error fetching messages: ', error);
+        res.status(500).send('Server Error');
     }
 };
-
 // Controller to create a new message
 const createMessage = async (req, res) => {
-    const { content, userId, recipientId } = req.body; // Get data from the request body
+    const { content, userId, recipientId } = req.body;
 
+    // Check if all required fields are present
     if (!content || !userId || !recipientId) {
-        return res.status(400).json({ msg: 'Message content, userId and recipientId are required.' });
+        return res.status(400).json({ msg: 'Message content, userId, and recipientId are required.' });
     }
 
     try {
@@ -33,14 +31,16 @@ const createMessage = async (req, res) => {
             userId,
             recipientId,
         });
-        
-        await newMessage.save(); // Save the new message without setting _id manually
-        res.status(201).json(newMessage); // Return the newly created message
+        await newMessage.save(); // Save to MongoDB
+        res.status(201).json(newMessage); // Return the message if created
     } catch (error) {
-        console.error(error);
+        console.error(error); // Log error for debugging
         res.status(500).send('Server Error'); // Handle any other errors
     }
 };
+
+
+
 
 // Controller to mark a message as read
 const markAsRead = async (req, res) => {

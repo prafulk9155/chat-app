@@ -11,12 +11,12 @@ const messageSchema = new mongoose.Schema({
         required: true,
     },
     recipientId: {
-        type: mongoose.Schema.Types.ObjectId, // ID of the user receiving the message
+        type: mongoose.Schema.Types.ObjectId, // Reference to the recipient user
         ref: 'User',
         required: true,
     },
     readBy: [{
-        type: mongoose.Schema.Types.ObjectId, // Array of user IDs who have read the message
+        type: mongoose.Schema.Types.ObjectId, // User IDs of readers
         ref: 'User',
     }],
     createdAt: {
